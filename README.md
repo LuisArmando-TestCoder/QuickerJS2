@@ -1,2 +1,2 @@
-# [QuickerJS2](https://raw.githubusercontent.com/LuisArmando-TestCoder/QuickerJS2/master/quicker.js)
+# [QuickerJS2](https://luisarmando-testcoder.github.io/QuickerJS2/.)
 This is a new version of the first library with clousure implemented, to avoid disasters

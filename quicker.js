@@ -57,6 +57,13 @@ function quick() {
     return elem.style.setProperty(prop, value);
   }
   function fetchJson(url, func){
+    /*
+      Example, in this case, this.jsn = json content
+      function theFunc(){
+        let content = this.jsn;
+        console.log(content);
+      }
+    */
     fetch(url)
     .then(response => {
       return response.json();
@@ -71,14 +78,7 @@ function quick() {
       console.log('There is an ERROR!! related to the call');
     });
   } // in func, this.json -> response
-  /*
-    Example, in this case, this.jsn = json content
-    function theFunc(){
-      let content = this.jsn;
-      console.log(content);
-    }
-  */
-
+  
   // Consult Erik's Code
   // At <<https://blog.dubbelboer.com/2012/12/21/getParameterByName-getCookieByName.html>>
   /* Get parameter by name function */
@@ -114,7 +114,35 @@ function quick() {
   
     return res ? res[1] : null;
   }
+  
+  // My sorting algorithms, the 'Cold Water Sorting'
+  function sortFromHighestToLowest(unsortedArray) {
+    let unsorted = [].concat(unsortedArray);
+    let sorted = [];
+    while(unsorted.length > 0) {
+      let hn = unsorted[0]; // hn stands for highest number
+      for(let i of unsorted) {
+        if(i > hn) hn = i;
+      }
+      sorted.push(parseInt(unsorted.splice(unsorted.indexOf(hn), 1)));
+    }
+    return sorted;
+  }
+  function sortFromLowestToHighest(unsortedArray) {
+    let unsorted = [].concat(unsortedArray);
+    let sorted = [];
+    while(unsorted.length > 0) {
+      let ln = unsorted[0]; // ln stands for lowest number
+      for(let i of unsorted) {
+        if(i < ln) ln = i;
+      }
+      sorted.push(parseInt(unsorted.splice(unsorted.indexOf(ln), 1)));
+    }
+    return sorted;
+  }
   return {
+    stl: sortFromLowestToHighest,
+    sth: sortFromHighestToLowest,
     gcn: getCookieByName,
     gpn: getParameterByName,
     fj: fetchJson,

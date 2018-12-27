@@ -140,9 +140,55 @@ function quick() {
     }
     return sorted;
   }
+  function sortUniqueFromHighest(theArr) {
+    let newArr = [theArr[0]];
+    for(let v = 0; v < theArr.length; v++) {
+      if(newArr.indexOf(theArr[v]) === -1) {
+        newArr.push(theArr[v]);
+      }
+    }
+    return newArr.sort(
+      function(a, b){
+        return b - a;
+      }
+    )
+  }
+  function sortUniqueFromLowest(theArr) {
+    let newArr = [theArr[0]];
+    for(let v = 0; v < theArr.length; v++) {
+      if(newArr.indexOf(theArr[v]) === -1) {
+        newArr.push(theArr[v]);
+      }
+    }
+    return newArr.sort(
+      function(a, b){
+        return a - b;
+      }
+    )
+  }
+  function sortFromHighest(theArr) {
+    let newArr = [].concat(theArr);
+    return newArr.sort(
+      function(a, b){
+        return b - a;
+      }
+    )
+  }
+  function sortFromLowest(theArr) {
+    let newArr = [].concat(theArr);
+    return newArr.sort(
+      function(a, b){
+        return a - b;
+      }
+    )
+  }
   return {
-    stl: sortFromLowestToHighest,
-    sth: sortFromHighestToLowest,
+    suh: sortUniqueFromHighest,
+    sul: sortUniqueFromLowest,
+    s_h: sortFromHighest, 
+    s_l: sortFromLowest,
+    stl: sortFromLowestToHighest, // with own sorting algorithm
+    sth: sortFromHighestToLowest, // the same
     gcn: getCookieByName,
     gpn: getParameterByName,
     fj: fetchJson,

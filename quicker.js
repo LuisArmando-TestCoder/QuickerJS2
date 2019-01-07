@@ -182,7 +182,7 @@ function quick() {
       }
     )
   }
-  function  putArrayInElement(_parent = document.querySelector('body'), _array) { // my own html creator
+  function putArrayInElement(_parent = document.querySelector('body'), _array) { // my own html creator
     for(let i of _array) {
       let currentElement = document.createElement(i.name);
       _parent.appendChild(currentElement);

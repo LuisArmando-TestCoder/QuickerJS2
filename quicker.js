@@ -182,7 +182,23 @@ function quick() {
       }
     )
   }
+  function  putArrayInElement(_parent = document.querySelector('body'), _array) { // my own html creator
+    for(let i of _array) {
+      let currentElement = document.createElement(i.name);
+      _parent.appendChild(currentElement);
+      if(i.inner) currentElement.innerHTML += i.inner;
+      if(i.attr) {
+        for(let a in i.attr) {
+          currentElement.setAttribute(a, i.attr[a]);
+        }
+      }
+      if(i.children) {
+        putArrayInElement(currentElement, i.children)
+      }
+    }
+  }
   return {
+    aine: putArrayInElement,
     suh: sortUniqueFromHighest,
     sul: sortUniqueFromLowest,
     s_h: sortFromHighest, 

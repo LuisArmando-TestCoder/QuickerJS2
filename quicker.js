@@ -2,30 +2,39 @@ function quick() {
   function getOneElementWithQuerySelector(param){
     return document.querySelector(param);
   }
+  
   function getElementsWithQuerySelector(param) {
     return document.querySelectorAll(param);
   }
+  
   function getElementsWithClass(param) {
     return document.getElementsByClassName(param);
   }
+  
   function getTheIdOfAnElement(param) {
     return document.getElementById(param);
   }
+  
   function makeFloatingRandom(min, max){
     return Math.random()*((max+1)-min)+min;
   }
+  
   function makeIntegerRandom(min, max){
     return parseInt(Math.random()*((max+1)-min)+min);
   }
+  
   function setWindowInterval(func, time){
     return window.setInterval(func, time);
   }
+  
   function setWindowTimeout(func, time){ 
     return window.setTimeout(func, time); 
   }
+  
   function createAnElement(elem){
     return document.createElement(elem);
   }
+  
   function createElementWithNs(elem){
     let theElem = document.createElementNS('http://www.w3.org/2000/svg', elem);
     if(elem.toLowerCase() === 'svg'){ 
@@ -33,12 +42,15 @@ function quick() {
     }
     return theElem;
   }
+  
   function setElementAttribute(elem, attr, value){
     return elem.setAttribute(attr, value);
   }
+  
   function setAppendChild(parent, child){
     return parent.appendChild(child);
   }
+  
   function setInnerHTML(elem, input, bool = true){
     if(bool){
       return elem.innerHTML += input;
@@ -46,6 +58,7 @@ function quick() {
       return elem.innerHTML = input;
     }
   }
+  
   function setInnerText(elem, input, bool = true){
     if(bool){
       return elem.innerText += input;
@@ -53,9 +66,11 @@ function quick() {
       return elem.innerText = input;
     }
   }
+  
   function setPropertyOnStyle(elem, prop, value){
     return elem.style.setProperty(prop, value);
   }
+  
   function fetchJson(url, func){
     /*
       Example, in this case, this.jsn = json content
@@ -100,6 +115,7 @@ function quick() {
           decodeURIComponent(res[1].replace(/\+/g, ' ')) : ''
         ) : null;
   }
+  
   function getCookieByName(name) {
     // According to RFC 2109 cookies can either be separated by ';' or ','.
     var res = new RegExp(
@@ -126,8 +142,10 @@ function quick() {
       }
       sorted.push(parseInt(unsorted.splice(unsorted.indexOf(hn), 1)));
     }
+    
     return sorted;
   }
+  
   function sortFromLowestToHighest(unsortedArray) {
     let unsorted = [].concat(unsortedArray);
     let sorted = [];
@@ -140,6 +158,7 @@ function quick() {
     }
     return sorted;
   }
+  
   function sortUniqueFromHighest(theArr) {
     let newArr = [theArr[0]];
     for(let v = 0; v < theArr.length; v++) {
@@ -147,12 +166,14 @@ function quick() {
         newArr.push(theArr[v]);
       }
     }
+    
     return newArr.sort(
       function(a, b){
         return b - a;
       }
     )
   }
+  
   function sortUniqueFromLowest(theArr) {
     let newArr = [theArr[0]];
     for(let v = 0; v < theArr.length; v++) {
@@ -160,12 +181,14 @@ function quick() {
         newArr.push(theArr[v]);
       }
     }
+    
     return newArr.sort(
       function(a, b){
         return a - b;
       }
     )
   }
+  
   function sortFromHighest(theArr) {
     let newArr = [].concat(theArr);
     return newArr.sort(
@@ -174,6 +197,7 @@ function quick() {
       }
     )
   }
+  
   function sortFromLowest(theArr) {
     let newArr = [].concat(theArr);
     return newArr.sort(
@@ -182,7 +206,38 @@ function quick() {
       }
     )
   }
+  
+  function canvasQuickMethods(
+    insideFunction, 
+    cnv = document.querySelector('canvas')) {
+    function animate(
+      wannaClearBool = true, 
+      ctx = cnv.getContext('2d')) {
+      if(wannaClearBool) ctx.clearRect(0, 0, cnv.width, cnv.height);
+      if(typeof insideFunction === 'function') insideFunction();
+      window.requestAnimationFrame(animate);
+    }
+
+    function manageCanvasSize( 
+      width = window.innerWidth,
+      height = window.innerHeight,
+      wrapper = window) {
+      cnv.width = width;
+      cnv.height = height;
+      wrapper.addEventListener('resize', ()=> {
+        cnv.width = width;
+        cnv.height = height;
+      });
+    }
+
+    return {
+      macs: manageCanvasSize,
+      anim: animate,
+    };
+  }
+  
   return {
+    cvm: canvasQuickMethods,
     suh: sortUniqueFromHighest,
     sul: sortUniqueFromLowest,
     s_h: sortFromHighest, 

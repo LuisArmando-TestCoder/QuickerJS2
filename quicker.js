@@ -209,10 +209,10 @@ function quick() {
   
   function canvasQuickMethods(
     insideFunction, 
+    wannaClearBool = true,
     cnv = document.querySelector('canvas')) {
-    function animate(
-      wannaClearBool = true, 
-      ctx = cnv.getContext('2d')) {
+    let ctx = cnv.getContext('2d');
+    function animate() {
       if(wannaClearBool) ctx.clearRect(0, 0, cnv.width, cnv.height);
       if(typeof insideFunction === 'function') insideFunction();
       window.requestAnimationFrame(animate);

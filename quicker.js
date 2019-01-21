@@ -202,8 +202,105 @@ function quick() {
       anim: animate,
     };
   }
-  
+  function linearRegression(obj) {
+    /*
+      Example
+      let xyObj = {
+        x: [1,6,4,11,16,18,2,2,5,7], // x
+        y: [27,66,55,90,100,97,24,34,60,70] // y
+        // xy
+        // x*x
+      }
+      let studentsGrade = linearRegression(xyObj);
+      console.log(studentsGrade.slr(10.2)); 
+      // give the x var to the <y = mx + b> equation
+      studentsGrade.dxy(18, 3.75); // draw in canvas
+    */
+    function simpleLinearRegression(x){
+      obj['xy'] = [];
+      obj['xx'] = [];
+      // summation
+      obj['_x'] = 0;
+      obj['_y'] = 0;
+      obj['_xy'] = 0;
+      obj['_xx'] = 0;
+      for (let i = 0; i < obj.x.length; i++) {
+        obj.xy.push(obj.x[i] * obj.y[i]);
+        obj.xx.push(obj.x[i] * obj.x[i]);
+      }
+      for (let i = 0; i < obj.x.length; i++) {
+        obj._x += obj.x[i];
+        obj._y += obj.y[i];
+        obj._xy += obj.xy[i];
+        obj._xx += obj.xx[i];
+      }
+      let m, b, y;
+      const n = obj.x.length;
+      m = (n * obj._xy - obj._x * obj._y) / (n * obj._xx - Math.pow(obj._x, 2));
+      b = (obj._y * obj._xx - obj._x * obj._xy) / (n * obj._xx - Math.pow(obj._x, 2));
+
+      y = m * x + b;
+      return y;
+    }
+    function drawGraphicXY(scaleX = 1,scaleY = 1, bool = true, cWidth = 400, cHeight = 400) {
+      const c = document.querySelector('canvas');
+      const ctx = c.getContext('2d');
+      const manageCanvasSize = (function() {
+        c.width = cWidth;
+        c.height = cHeight;
+        window.addEventListener('resize', ()=> {
+          c.width = cWidth;
+          c.height = cHeight;
+        });
+      })();
+      let lineToDraw = [];
+      for(let i = 0; i < c.width / scaleX; i++) {
+        let yResult = simpleLinearRegression(i);
+        lineToDraw.push({
+          y: yResult * scaleY,
+          x: i * scaleX, // use to draw in canvas
+          realX: i,
+          realY: yResult
+        });
+        // console.log(i, '-', yResult);
+      }
+      // console.log(lineToDraw);
+      function drawLine() {
+        ctx.beginPath();
+        ctx.fillStyle = '#FF0000';
+        for(let i of lineToDraw) {
+          ctx.fillRect(i.x,c.height - i.y,5,5);
+        }
+      }
+      function drawXYDots() {
+        ctx.fillStyle = '#210CE8';
+        ctx.beginPath();
+        for (let i = 0; i < obj.x.length; i++) {
+          //ctx.fillRect(obj.x[i] * scaleX - scaleDotX / 2, 
+          //             c.height - obj.y[i] * scaleY - scaleDotY / 2, 
+          //             scaleDotX, scaleDotY);
+          ctx.fillText(`${i+1}°(${obj.x[i]},${obj.y[i]})`, obj.x[i] * scaleX, 
+                       c.height - obj.y[i] * scaleY);
+          ctx.font = '12px sans-serif';
+        }
+      }
+      function animate() {
+        ctx.clearRect(0, 0, c.width, c.height);
+        drawXYDots(obj, ctx);
+        if(bool) drawLine();
+        window.requestAnimationFrame(animate);
+      };
+      animate();
+    }
+    // simpleLinearRegression(obj, 10);
+    return {
+      slr: simpleLinearRegression,
+      dxy: drawGraphicXY
+    }
+
+  }
   return {
+    lr: linearRegression,
     cvm: canvasQuickMethods,
     suh: sortUniqueFromHighest,
     sul: sortUniqueFromLowest,

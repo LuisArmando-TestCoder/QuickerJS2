@@ -299,7 +299,61 @@ function quick() {
     }
 
   }
+  function navigationScroll(obj) {
+    const scrollTop = (function() {
+      let height = 0;
+      let heights = [height];
+      let setHeightsInfo;
+      let setNavScroll;
+      (setHeightsInfo = function(){
+        height = 0;
+        heights = [height];
+        let nContainer = 0;
+        for (let i of obj.containers) {
+          i.setAttribute('data-n-container', nContainer);
+          nContainer++;
+          height += i.offsetHeight;
+          heights.push(height);
+        }
+        console.log(heights);
+      })();
+      window.addEventListener('resize', ()=> {
+        setHeightsInfo();
+      });
+      (setNavScroll = function(){
+        let n = 0;
+        for (let i = 0; i < obj.navButtons.length; i++) {
+          obj.navButtons[i].addEventListener('click', ()=> {
+            n = i;
+            function animateScroll() {
+              if(n === i) {
+                if (obj.wrapper.scrollTop < heights[i]) {
+                  if(obj.wrapper.scrollTop < heights[i] - heights[i] / 20) {
+                    obj.wrapper.scrollTop+=heights[1] / 35;
+                  }else {
+                    obj.wrapper.scrollTop+=1;
+                  }
+                  window.requestAnimationFrame(animateScroll);
+                } else if (obj.wrapper.scrollTop > heights[i]) {
+                  if(obj.wrapper.scrollTop > heights[i] + heights[i] / 20) {
+                    obj.wrapper.scrollTop-=heights[1] / 35;
+                  } else {
+                    obj.wrapper.scrollTop-=1;
+                  }
+                  window.requestAnimationFrame(animateScroll);
+                } 
+              }
+
+            }
+            animateScroll();
+          });
+        }
+      })();
+
+    })();
+  }
   return {
+    nst: navigationScroll,
     lr: linearRegression,
     cvm: canvasQuickMethods,
     suh: sortUniqueFromHighest,

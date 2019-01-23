@@ -328,17 +328,21 @@ function quick() {
             function animateScroll() {
               if(n === i) {
                 if (obj.wrapper.scrollTop < heights[i]) {
-                  if(obj.wrapper.scrollTop < heights[i] - heights[i] / 20) {
-                    obj.wrapper.scrollTop+=heights[1] / 35;
-                  }else {
-                    obj.wrapper.scrollTop+=1;
+                  if(obj.wrapper.scrollTop > heights[i] - 3) { 
+                    if(obj.wrapper.scrollTop < heights[i] - heights[i] / 25) {
+                      obj.wrapper.scrollTop+=heights[1] / 35;
+                    }else {
+                      obj.wrapper.scrollTop+=1;
+                    }
                   }
                   window.requestAnimationFrame(animateScroll);
                 } else if (obj.wrapper.scrollTop > heights[i]) {
-                  if(obj.wrapper.scrollTop > heights[i] + heights[i] / 20) {
-                    obj.wrapper.scrollTop-=heights[1] / 35;
-                  } else {
-                    obj.wrapper.scrollTop-=1;
+                  if(obj.wrapper.scrollTop < heights[i] + 3) { 
+                    if(obj.wrapper.scrollTop > heights[i] + heights[i] / 25) {
+                      obj.wrapper.scrollTop-=heights[1] / 35;
+                    } else {
+                      obj.wrapper.scrollTop-=1;
+                    }
                   }
                   window.requestAnimationFrame(animateScroll);
                 } 

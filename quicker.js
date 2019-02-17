@@ -174,17 +174,13 @@ function quick() {
     )
   }
   
-  function manageSize(c, w, h) {
-   function setSize() {
-      c.width = w;
-      c.height = h;
+  function manageSize(c) {
+    function setSize() {
+      c.width = window.innerWidth;
+      c.height = window.innerHeight;
     }
     setSize();
-    [[w, window.innerWidth], [h, window.innerHeight]].forEach((u) => {
-      if(u[0] === u[1]) {
-        window.addEventListener('resize', setSize);
-      }
-    });
+    window.addEventListener('resize', setSize);
   }
   
   function linearRegression(obj) {

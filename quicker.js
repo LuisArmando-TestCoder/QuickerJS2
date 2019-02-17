@@ -174,34 +174,19 @@ function quick() {
     )
   }
   
-  function canvasQuickMethods(
-    insideFunction, 
-    wannaClearBool = true,
-    cnv = document.querySelector('canvas')) {
-    let ctx = cnv.getContext('2d');
-    function animate() {
-      if(wannaClearBool) ctx.clearRect(0, 0, cnv.width, cnv.height);
-      if(typeof insideFunction === 'function') insideFunction();
-      window.requestAnimationFrame(animate);
+  function manageSize(c, w, h) {
+   function setSize() {
+      c.width = w;
+      c.height = h;
     }
-
-    function manageCanvasSize( 
-      width = window.innerWidth,
-      height = window.innerHeight,
-      wrapper = window) {
-      cnv.width = width;
-      cnv.height = height;
-      wrapper.addEventListener('resize', ()=> {
-        cnv.width = width;
-        cnv.height = height;
-      });
-    }
-
-    return {
-      macs: manageCanvasSize,
-      anim: animate,
-    };
+    setSize();
+    [[w, window.innerWidth], [h, window.innerHeight]].forEach((u) => {
+      if(u[0] === u[1]) {
+        window.addEventListener('resize', setSize);
+      }
+    });
   }
+  
   function linearRegression(obj) {
     /*
       Example
@@ -297,12 +282,11 @@ function quick() {
       slr: simpleLinearRegression,
       dxy: drawGraphicXY
     }
-
   }
   
   return {
     lr: linearRegression,
-    cvm: canvasQuickMethods,
+    cmsz: manageSize,
     suh: sortUniqueFromHighest,
     sul: sortUniqueFromLowest,
     s_h: sortFromHighest, 

@@ -279,8 +279,38 @@ function quick() {
       dxy: drawGraphicXY
     }
   }
-  
+  /**
+    * * #! > is factorial
+  */
+  function getFactorial(n) {
+    let nFactorial = 1;
+    for (let i = 1; i < n + 1; i += 1) {
+      nFactorial *= i;
+    }
+    return nFactorial;
+  }
+
+  /** Combinations
+    * (n)
+    *     = n! / r! * (n - r)!
+    * (r)
+    *
+  */
+  function getCombination(n, r) {
+    return getFactorial(n) / (getFactorial(r) * getFactorial(n -r));
+  }
+
+  /** Permutations
+    * P(n, k) = n! / (n - k)!
+    *
+  */
+  function getPermutation(n, k) {
+    return getFactorial(n) / getFactorial(n - k);
+  }
   return {
+    gp: getPermutation,
+    gc: getCombination,
+    gf: getFactorial,
     lr: linearRegression,
     cmsz: manageSize,
     suh: sortUniqueFromHighest,
